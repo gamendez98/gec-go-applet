@@ -1,5 +1,89 @@
 package templates
 
 templ Hello(name string) {
-	<div>Hello, { name }</div>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Custom Radio Input with Alpine.js</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.10.5/cdn.min.js" defer></script>
+        <style>
+            .radio-container {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+            .radio-option {
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+            }
+            .radio-input {
+                display: none;
+            }
+            .radio-custom {
+                width: 20px;
+                height: 20px;
+                border: 2px solid #007bff;
+                border-radius: 50%;
+                margin-right: 10px;
+                position: relative;
+            }
+            .radio-custom::after {
+                content: '';
+                width: 10px;
+                height: 10px;
+                background-color: #007bff;
+                border-radius: 50%;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) scale(0);
+                transition: transform 0.2s ease-in-out;
+            }
+            .radio-input:checked + .radio-custom::after {
+                transform: translate(-50%, -50%) scale(1);
+            }
+            button {
+                padding: 10px 20px;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            button:disabled {
+                background-color: #ccc;
+                cursor: not-allowed;
+            }
+        </style>
+    </head>
+    <body>
+        <div x-data="{ selectedOption: null }">
+            <h2>Select an option: { name }</h2>
+            <div class="radio-container">
+                <label class="radio-option">
+                    <input type="radio" name="option" value="option1" x-model="selectedOption" class="radio-input">
+                    <span class="radio-custom"></span>
+                    Option 1
+                </label>
+                <label class="radio-option">
+                    <input type="radio" name="option" value="option2" x-model="selectedOption" class="radio-input">
+                    <span class="radio-custom"></span>
+                    Option 2
+                </label>
+                <label class="radio-option">
+                    <input type="radio" name="option" value="option3" x-model="selectedOption" class="radio-input">
+                    <span class="radio-custom"></span>
+                    Option 3
+                </label>
+            </div>
+            <button :disabled="!selectedOption" @click="alert('You selected: ' + selectedOption)">
+                Submit
+            </button>
+        </div>
+    </body>
+    </html>
 }
